@@ -3,13 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     $products = \App\Models\Product::latest()->take(10)->get();
-    return view('index', compact('products'));
+    $categories = \App\Models\Category::all();
+    return view('index', compact('products', 'categories'));
 })->name('home');
 
 // Shop Routes
@@ -37,4 +39,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
     Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+
+    // Admin Categories Management
+    Route::resource('categories', AdminCategoryController::class);
 });

@@ -67,6 +67,30 @@
     </div>
   </section>
 
+  <section id="categories" class="padding-large no-padding-top">
+    <div class="container">
+      <div class="display-header d-flex justify-content-between pb-3">
+        <h2 class="display-7 text-dark text-uppercase">Shop By Category</h2>
+      </div>
+      <div class="row g-4 d-flex justify-content-start">
+        @foreach($categories as $category)
+        <div class="col-lg-2 col-md-4 col-6 text-center">
+          <a href="{{ route('shop', ['category' => $category->slug]) }}" class="text-decoration-none">
+            <div class="card border-0 shadow-sm p-4 category-card bg-light h-100 d-flex justify-content-center align-items-center">
+              <h6 class="text-uppercase m-0 fw-bold">{{ $category->name }}</h6>
+            </div>
+          </a>
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </section>
+  <style>
+    .category-card { transition: all 0.3s ease; border-radius: 12px; }
+    .category-card:hover { transform: translateY(-5px); background: var(--primary-color) !important; box-shadow: 0 10px 20px rgba(230,98,57,0.2) !important; }
+    .category-card:hover h6 { color: white; }
+  </style>
+
   <section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
       <div class="row">
