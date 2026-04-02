@@ -26,57 +26,26 @@
       <i class="ti ti-layout-sidebar-left-expand"></i>
     </button>
     <div>
-      <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
-        <li>
-          <a class="position-relative btn-icon btn-sm btn-light btn rounded-circle" data-bs-toggle="dropdown"
-            aria-expanded="false" href="#" role="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-bell">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-              <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-            </svg>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-2 ms-n2">
-              2
-              <span class="visually-hidden">unread messages</span>
-            </span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-end dropdown-menu-md p-0">
-            <ul class="list-unstyled p-0 m-0">
-              <li class="p-3 border-bottom ">
-                <div class="d-flex gap-3">
-                  <img src="{{ asset('admin-assets/images/avatar/avatar-1.jpg') }}" alt="" class="avatar avatar-sm rounded-circle" />
-                  <div class="flex-grow-1 small">
-                    <p class="mb-0">New order received</p>
-                    <p class="mb-1">Order #12345 has been placed</p>
-                    <div class="text-secondary">5 minutes ago</div>
-                  </div>
-                </div>
-              </li>
-              <li class="px-4 py-3 text-center">
-                <a href="#" class="text-primary ">View all notifications</a>
-              </li>
-            </ul>
-          </div>
-        </li>
+        <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
         <li class="ms-3 dropdown">
-          <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="d-flex align-items-center gap-2 text-decoration-none">
             <img src="{{ asset('admin-assets/images/avatar/avatar-1.jpg') }}" alt="" class="avatar avatar-sm rounded-circle" />
+            <span class="d-none d-md-inline small fw-semibold">{{ auth()->user()->name ?? 'Admin' }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-end p-0" style="min-width: 200px;">
-            <div>
-              <div class="d-flex gap-3 align-items-center border-dashed border-bottom px-3 py-3">
-                <img src="{{ asset('admin-assets/images/avatar/avatar-1.jpg') }}" alt="" class="avatar avatar-md rounded-circle" />
-                <div>
-                  <h4 class="mb-0 small">Admin User</h4>
-                  <p class="mb-0  small">admin@example.com</p>
-                </div>
+            <div class="d-flex gap-3 align-items-center border-bottom px-3 py-3">
+              <img src="{{ asset('admin-assets/images/avatar/avatar-1.jpg') }}" alt="" class="avatar avatar-md rounded-circle" />
+              <div>
+                <h4 class="mb-0 small">{{ auth()->user()->name ?? 'Admin' }}</h4>
+                <p class="mb-0 small text-muted">{{ auth()->user()->email ?? '' }}</p>
               </div>
-              <div class="p-3 d-flex flex-column gap-1 small lh-lg">
-                <a href="#!" class="">Home</a>
-                <a href="#!" class="">Account Settings</a>
-              </div>
+            </div>
+            <div class="p-2">
+              <a href="{{ route('home') }}" class="dropdown-item rounded">View Site</a>
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="dropdown-item rounded text-danger">Logout</button>
+              </form>
             </div>
           </div>
         </li>
@@ -97,6 +66,8 @@
       <li><a class="nav-link {{ request()->routeIs('admin.inventory') ? 'active' : '' }}" href="{{ route('admin.inventory') }}"><i class="ti ti-box-seam"></i><span class="nav-text">Inventory</span></a></li>
       <li><a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}"><i class="ti ti-tags"></i><span class="nav-text">Categories</span></a></li>
       <li><a class="nav-link {{ request()->routeIs('admin.products.create') ? 'active' : '' }}" href="{{ route('admin.products.create') }}"><i class="ti ti-plus"></i><span class="nav-text">Add Product</span></a></li>
+      <li class="px-4 py-2 mt-3"><small class="nav-text">Management</small></li>
+      <li><a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}"><i class="ti ti-users"></i><span class="nav-text">Users</span></a></li>
       <li class="px-4 py-2 mt-3"><small class="nav-text">Sales</small></li>
       <li><a class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}"><i class="ti ti-shopping-cart"></i><span class="nav-text">Orders</span></a></li>
     </ul>

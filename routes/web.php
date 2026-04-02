@@ -1,16 +1,28 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
-use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Support\Facades\Route;
+
+// Auth Routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
-    $products = \App\Models\Product::latest()->take(10)->get();
-    $categories = \App\Models\Category::all();
+    $products = Product::latest()->take(10)->get();
+    $categories = Category::all();
+
     return view('index', compact('products', 'categories'));
 })->name('home');
 
@@ -28,8 +40,16 @@ Route::delete('/remove-from-cart', [CartController::class, 'remove'])->name('car
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('order.place');
 
-// Admin Routes
+// Admin Auth Routes (no middleware — public)
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login.post');
+    Route::post('/logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
+});
+
+// Admin Routes (protected)
+Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/inventory', [DashboardController::class, 'inventory'])->name('inventory');
     Route::get('/products/create', [DashboardController::class, 'create'])->name('products.create');
@@ -42,4 +62,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Admin Categories Management
     Route::resource('categories', AdminCategoryController::class);
+
+    // Admin Users Management
+    Route::resource('users', AdminUserController::class)->only(['index', 'edit', 'update']);
 });

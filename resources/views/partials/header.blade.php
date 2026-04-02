@@ -59,13 +59,25 @@
                   </a>
                 </li>
                 @auth
-                <li>
+                  @if(auth()->user()->role === 'admin')
+                  <li class="me-2">
                     <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-dark rounded-pill fw-bold text-uppercase" style="font-size: 0.8rem; padding: 0.4rem 1.2rem;">Dashboard</a>
-                </li>
+                  </li>
+                  @endif
+                  <li class="d-flex align-items-center gap-2">
+                    <span class="fw-semibold text-dark" style="font-size: 0.85rem;">Hi, {{ auth()->user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}" class="mb-0">
+                      @csrf
+                      <button type="submit" class="btn btn-danger rounded-pill fw-bold text-uppercase" style="font-size: 0.8rem; padding: 0.4rem 1.2rem;">Logout</button>
+                    </form>
+                  </li>
                 @else
-                <li>
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-dark rounded-pill fw-bold text-uppercase" style="font-size: 0.8rem; padding: 0.4rem 1.2rem;">Login</a>
-                </li>
+                  <li class="me-2">
+                    <a href="{{ route('login') }}" class="btn btn-outline-dark rounded-pill fw-bold text-uppercase" style="font-size: 0.8rem; padding: 0.4rem 1.2rem;">Login</a>
+                  </li>
+                  <li>
+                    <a href="{{ route('register') }}" class="btn btn-dark rounded-pill fw-bold text-uppercase" style="font-size: 0.8rem; padding: 0.4rem 1.2rem;">Register</a>
+                  </li>
                 @endauth
               </ul>
             </div>
