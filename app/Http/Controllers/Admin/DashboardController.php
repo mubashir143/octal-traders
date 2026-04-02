@@ -20,7 +20,8 @@ class DashboardController extends Controller
 
     public function create()
     {
-        return view('admin.create-product');
+        $categories = \App\Models\Category::all();
+        return view('admin.create-product', compact('categories'));
     }
 
     public function store(Request $request)
