@@ -12,12 +12,14 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Not logged in → redirect to admin login
-        if (! Auth::check()) {
+        if (! Auth::guard('admin')->check()) {
             return redirect()->route('admin.login');
         }
 
         // Logged in but not an admin → redirect to admin login with error
-        if (Auth::user()->role !== 'admin') {
+        if (Auth::guard('admin')->user()->role !== 'admin') {
+            Auth::guard('admin')->logout();
+
             return redirect()->route('admin.login')
                 ->withErrors(['email' => 'Username or password is incorrect.']);
         }
