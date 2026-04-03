@@ -19,12 +19,27 @@ class CartController extends Controller
 
     public function add(Request $request, Product $product)
     {
+        $this->addToCart($product);
+
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
+    }
+
+    public function buy(Request $request, Product $product)
+    {
+        $this->addToCart($product);
+
+        return redirect()->route('checkout')->with('success', 'Product added to cart. Please proceed with checkout.');
+    }
+
+    private function addToCart(Product $product)
+    {
         $cart = session()->get('cart', []);
 
         if(isset($cart[$product->id])) {
             $cart[$product->id]['quantity']++;
         } else {
             $cart[$product->id] = [
+                "id" => $product->id,
                 "name" => $product->name,
                 "quantity" => 1,
                 "price" => $product->price,
@@ -33,7 +48,6 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 
     public function update(Request $request)

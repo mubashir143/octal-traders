@@ -59,10 +59,20 @@
       initProductQty();
 
       var swiper = new Swiper(".main-swiper", {
-        speed: 500,
+        speed: 800,
+        loop: true,
+        parallax: true,
+        autoplay: {
+          delay: 6000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
         navigation: {
-          nextEl: ".swiper-arrow-prev",
-          prevEl: ".swiper-arrow-next",
+          nextEl: ".swiper-arrow-next",
+          prevEl: ".swiper-arrow-prev",
         },
       });         
 

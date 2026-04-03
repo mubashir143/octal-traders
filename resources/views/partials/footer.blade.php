@@ -58,95 +58,168 @@
   }
 </style>
 
-<footer id="footer" class="premium-footer overflow-hidden padding-large py-5">
+<style>
+  .modern-footer {
+    background: #0f172a;
+    color: #94a3b8;
+    padding-top: 60px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+  }
+  
+  .footer-newsletter {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 50px;
+  }
+  
+  .footer-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .footer-link {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  
+  .footer-link:hover {
+    color: var(--primary-color);
+    transform: translateX(3px);
+  }
+  
+  .social-pill {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.05);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: white;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .social-pill:hover {
+    background: var(--primary-color);
+    transform: translateY(-3px);
+    color: white;
+  }
+  
+  .newsletter-input-sm {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 10px 15px;
+    color: white;
+    font-size: 0.85rem;
+  }
+  
+  .footer-bottom-v3 {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 25px 0;
+    margin-top: 50px;
+    background: rgba(0,0,0,0.1);
+  }
+
+  .contact-box {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+</style>
+
+<footer class="modern-footer mt-5">
+  <div class="container">
+    <!-- Compact Newsletter -->
+    <div class="footer-newsletter">
+      <div class="row align-items-center">
+        <div class="col-lg-5 mb-3 mb-lg-0 text-center text-lg-start">
+          <h4 class="text-white fw-700 mb-1">Octal Traders Insights</h4>
+          <p class="mb-0 small text-muted">Join 5,000+ traders for weekly hardware updates.</p>
+        </div>
+        <div class="col-lg-7">
+          <div class="d-flex gap-2">
+            <input type="email" class="form-control newsletter-input-sm shadow-none" placeholder="Enter your email...">
+            <button class="btn btn-premium py-2 px-4" style="font-size: 0.85rem;">Join now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Brand -->
+      <div class="col-lg-4 col-md-12">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" style="max-height: 40px; filter: brightness(0) invert(1);">
+        </div>
+        <p class="mb-4 small lh-base pe-lg-4">Premium hardware and professional trading solutions. Octal Traders is your trusted partner in high-performance technology.</p>
+        <div class="social-links">
+          <a href="#" class="social-pill"><i class="ti ti-brand-facebook fs-5"></i></a>
+          <a href="#" class="social-pill"><i class="ti ti-brand-linkedin fs-5"></i></a>
+          <a href="#" class="social-pill"><i class="ti ti-brand-x fs-5"></i></a>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="col-6 col-lg-2">
+        <h6 class="footer-title">Navigation</h6>
+        <a href="{{ route('home') }}" class="footer-link small">Home</a>
+        <a href="{{ route('shop') }}" class="footer-link small">Marketplace</a>
+        <a href="{{ route('cart.index') }}" class="footer-link small">Cart</a>
+        <a href="{{ route('checkout') }}" class="footer-link small">Checkout</a>
+      </div>
+
+      <!-- Services -->
+      <div class="col-6 col-lg-2">
+        <h6 class="footer-title">Our Services</h6>
+        <a href="#" class="footer-link small">Fast Shipping</a>
+        <a href="#" class="footer-link small">24/7 Support</a>
+        <a href="#" class="footer-link small">Secured Payments</a>
+        <a href="#" class="footer-link small">Custom Builds</a>
+      </div>
+
+      <!-- Contact -->
+      <div class="col-lg-4">
+        <h6 class="footer-title">Get in Touch</h6>
+        <div class="contact-box">
+          <div class="d-flex gap-2 mb-2">
+            <i class="ti ti-map-pin text-primary mt-1"></i>
+            <span>123 Tech Avenue, Silicon District, NY</span>
+          </div>
+          <div class="d-flex gap-2 mb-2">
+            <i class="ti ti-mail text-primary mt-1"></i>
+            <a href="mailto:contact@octaltraders.com" class="text-reset text-decoration-none">contact@octaltraders.com</a>
+          </div>
+          <div class="d-flex gap-2">
+            <i class="ti ti-phone text-primary mt-1"></i>
+            <span>+1 (234) 567-890</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal Bottom -->
+  <div class="footer-bottom-v3">
     <div class="container">
-      <div class="row pt-5 pb-4">
-        <div class="footer-top-area w-100">
-          <div class="row d-flex flex-wrap justify-content-between">
-            <div class="col-lg-4 col-sm-6 pb-4 pe-lg-5">
-              <div class="footer-menu">
-                <a href="{{ route('home') }}">
-                  <img src="{{ asset('images/main-logo.png') }}" class="logo mb-4" alt="logo" style="mix-blend-mode: color-dodge; opacity: 0.9; max-height: 55px; filter: brightness(0) invert(1);">
-                </a>
-                <p class="mb-4">Leading provider of octal-based trading solutions, ensuring reliable and secure transactions for global markets with a premium experience.</p>
-                <div class="social-links">
-                  <ul class="d-flex list-unstyled">
-                    <li><a href="#"><svg class="facebook" width="18" height="18"><use xlink:href="#facebook" /></svg></a></li>
-                    <li><a href="#"><svg class="instagram" width="18" height="18"><use xlink:href="#instagram" /></svg></a></li>
-                    <li><a href="#"><svg class="twitter" width="18" height="18"><use xlink:href="#twitter" /></svg></a></li>
-                    <li><a href="#"><svg class="linkedin" width="18" height="18"><use xlink:href="#linkedin" /></svg></a></li>
-                    <li><a href="#"><svg class="youtube" width="18" height="18"><use xlink:href="#youtube" /></svg></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-2 col-sm-6 pb-4">
-              <div class="footer-menu">
-                <h5 class="widget-title text-uppercase">Quick Links</h5>
-                <ul class="menu-list list-unstyled">
-                  <li class="menu-item pb-2"><a href="{{ route('home') }}">Home Screen</a></li>
-                  <li class="menu-item pb-2"><a href="{{ route('shop') }}">Shop Catalog</a></li>
-                  <li class="menu-item pb-2"><a href="{{ route('cart.index') }}">Your Cart</a></li>
-                  <li class="menu-item pb-2"><a href="{{ route('checkout') }}">Checkout Page</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 pb-4">
-              <div class="footer-menu">
-                <h5 class="widget-title text-uppercase">Help & Info</h5>
-                <ul class="menu-list list-unstyled">
-                  <li class="menu-item pb-2"><a href="#">Track Your Order</a></li>
-                  <li class="menu-item pb-2"><a href="#">Returns & Exchanges</a></li>
-                  <li class="menu-item pb-2"><a href="#">Shipping & Delivery</a></li>
-                  <li class="menu-item pb-2"><a href="#">Contact Us</a></li>
-                  <li class="menu-item pb-2"><a href="#">Store Locations</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 pb-4">
-              <div class="footer-menu contact-item">
-                <h5 class="widget-title text-uppercase">Contact Us</h5>
-                <p class="mb-2">Any queries or suggestions?</p>
-                <a href="mailto:contact@octaltraders.com" class="d-block fw-bold text-white mb-3">contact@octaltraders.com</a>
-                <p class="mb-2">Need immediate support?</p>
-                <a href="tel:+1234567890" class="d-block fw-bold text-white fs-5">+1 234 567 890</a>
-              </div>
-            </div>
-          </div>
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 small">
+        <p class="mb-0">&copy; {{ date('Y') }} <strong>Octal Traders</strong>. All rights reserved.</p>
+        <div class="d-flex gap-3">
+          <a href="#" class="text-reset text-decoration-none opacity-50 hover-opacity-100">Privacy</a>
+          <a href="#" class="text-reset text-decoration-none opacity-50 hover-opacity-100">Terms</a>
+          <a href="#" class="text-reset text-decoration-none opacity-50 hover-opacity-100">Cookies</a>
         </div>
       </div>
     </div>
-    
-    <div id="footer-bottom" class="footer-bottom border-0 mt-3">
-      <div class="container">
-        <div class="row d-flex flex-wrap justify-content-between align-items-center">
-          <div class="col-md-4 col-sm-6 mb-3 mb-md-0">
-            <div class="Shipping d-flex align-items-center">
-              <p class="mb-0 me-3">We ship with:</p>
-              <div class="card-wrap d-flex align-items-center">
-                <img src="{{ asset('images/dhl.png') }}" alt="dhl" class="bg-white p-1">
-                <img src="{{ asset('images/shippingcard.png') }}" alt="shipping" class="bg-white p-1">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6 text-center text-md-end order-md-3">
-            <div class="Payment-methods d-flex align-items-center justify-content-md-end">
-              <p class="mb-0 me-3">Payment methods:</p>
-              <div class="card-wrap d-flex align-items-center">
-                <img src="{{ asset('images/visa.jpg') }}" alt="visa" class="bg-white p-1">
-                <img src="{{ asset('images/mastercard.jpg') }}" alt="mastercard" class="bg-white p-1">
-                <img src="{{ asset('images/paypal.jpg') }}" alt="paypal" class="bg-white p-1">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-12 text-center order-md-2 mt-3 mt-md-0">
-            <div class="copyright">
-              <p class="mb-0">&copy; {{ date('Y') }} Octal Traders. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
 </footer>
 
 <script src="{{ asset('js/jquery-1.11.0.min.js') }}"></script>

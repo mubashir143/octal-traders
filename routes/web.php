@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
@@ -22,8 +24,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', function () {
     $products = Product::latest()->take(10)->get();
     $categories = Category::all();
+    $banners = Banner::where('status', true)->orderBy('order')->get();
 
-    return view('index', compact('products', 'categories'));
+    return view('index', compact('products', 'categories', 'banners'));
 })->name('home');
 
 // Shop Routes
@@ -33,6 +36,7 @@ Route::get('/product/{product}', [ProductController::class, 'show'])->name('prod
 // Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/add-to-cart/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::get('/buy-now/{product}', [CartController::class, 'buy'])->name('cart.buy');
 Route::patch('/update-cart', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/remove-from-cart', [CartController::class, 'remove'])->name('cart.remove');
 
@@ -65,4 +69,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
 
     // Admin Users Management
     Route::resource('users', AdminUserController::class)->only(['index', 'edit', 'update']);
+
+    // Admin Banner Management
+    Route::resource('banners', BannerController::class);
 });

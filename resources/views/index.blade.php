@@ -8,33 +8,184 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <style>
+    .swiper-arrow { transition: all 0.3s ease; border: 1px solid rgba(0,0,0,0.1); }
+    .swiper-arrow:hover { background-color: var(--primary-color) !important; color: white !important; border-color: var(--primary-color) !important; transform: translateY(-50%) scale(1.1); }
+  </style>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
   
   @include('partials.header')
 
-  <section id="billboard" class="position-relative overflow-hidden bg-light-blue" style="margin-top: 100px;">
-    <div class="swiper main-swiper">
+  <style>
+    .billboard-v3 {
+      height: 550px;
+      margin-top: 90px;
+      padding: 0;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+    
+    .parallax-bg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 130%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.9);
+      opacity: 0.15;
+    }
+    
+    .billboard-v3::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(248, 250, 252, 1) 0%, rgba(248, 250, 252, 0.4) 50%, rgba(248, 250, 252, 1) 100%);
+      z-index: 0;
+    }
+
+    .banner-glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 40px;
+      padding: 60px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.08);
+      transform: translateY(40px);
+      transition: all 1s cubic-bezier(0.2, 1, 0.2, 1);
+      opacity: 0;
+      z-index: 2;
+    }
+
+    .swiper-slide-active .banner-glass-card {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .display-banner {
+      font-weight: 900;
+      font-size: 3.8rem;
+      letter-spacing: -2.5px;
+      line-height: 1.05;
+      margin-bottom: 25px;
+      color: var(--dark-color);
+    }
+
+    .floating-badge {
+      display: inline-block;
+      background: rgba(230, 98, 57, 0.1);
+      color: var(--primary-color);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .banner-img-wrap {
+      position: relative;
+      perspective: 1000px;
+    }
+
+    .banner-img-floating {
+      border-radius: 30px;
+      box-shadow: 0 50px 80px rgba(0,0,0,0.15);
+      animation: floating 6s ease-in-out infinite;
+      border: 8px solid white;
+    }
+
+    @keyframes floating {
+      0% { transform: translatey(0px); }
+      50% { transform: translatey(-20px); }
+      100% { transform: translatey(0px); }
+    }
+
+    .swiper-arrow-custom {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: white;
+      border: none;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark-color);
+    }
+
+    .swiper-arrow-custom:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: scale(1.1);
+    }
+  </style>
+
+  <section id="billboard" class="billboard-v3 position-relative">
+    <div class="swiper main-swiper h-100" data-parallax="true">
       <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <div class="container">
-            <div class="row d-flex align-items-center">
-              <div class="col-md-6">
-                <div class="banner-content">
-                  <h1 class="display-2 text-uppercase text-dark pb-5">Your Products Are Great.</h1>
-                  <a href="{{ route('shop') }}" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Shop Product</a>
+        @forelse($banners as $banner)
+        <div class="swiper-slide d-flex align-items-center">
+            <!-- Parallax Background Element -->
+            <div class="parallax-bg" style="background-image: url('{{ asset($banner->image) }}'); opacity: 0.1;" data-swiper-parallax="-30%"></div>
+            
+            <div class="container position-relative z-1">
+              <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-swiper-parallax="-300">
+                  <div class="banner-glass-card">
+                    <span class="floating-badge">Octal Traders Exclusive</span>
+                    <h1 class="display-banner">{{ $banner->title }}</h1>
+                    <p class="lead mb-4 text-muted fs-5">{{ $banner->subtitle }}</p>
+                    <a href="{{ $banner->button_link ?? route('shop') }}" class="btn btn-premium btn-lg">
+                      {{ $banner->button_text ?? 'Explore Market' }}
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-5">
-                <div class="image-holder">
-                  <img src="images/banner-image.png" alt="banner">
+                <div class="col-lg-6 text-center" data-swiper-parallax="-500">
+                  <div class="banner-img-wrap">
+                    <img src="{{ asset($banner->image) }}" alt="banner" class="img-fluid banner-img-floating" style="max-height: 420px; width: auto; object-fit: contain;">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+        </div>
+        @empty
+        <div class="swiper-slide d-flex align-items-center">
+            <div class="parallax-bg" style="background-image: url('images/banner-image.png'); opacity: 0.1;" data-swiper-parallax="-30%"></div>
+            <div class="container position-relative z-1">
+              <div class="row align-items-center">
+                <div class="col-lg-6">
+                  <div class="banner-glass-card">
+                    <span class="floating-badge">Welcome to Octal</span>
+                    <h1 class="display-banner">Your Products Are Great.</h1>
+                    <a href="{{ route('shop') }}" class="btn btn-premium btn-lg">Shop Now</a>
+                  </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                  <img src="images/banner-image.png" alt="banner" class="img-fluid banner-img-floating" style="max-height: 400px;">
+                </div>
+              </div>
+            </div>
+        </div>
+        @endforelse
+      </div>
+
+      <!-- Navigation Custom -->
+      <div class="container position-absolute bottom-0 start-50 translate-middle-x pb-5 z-3 d-none d-md-block">
+        <div class="d-flex gap-3 justify-content-end">
+          <button class="swiper-arrow-custom swiper-arrow-prev"><i class="ti ti-chevron-left"></i></button>
+          <button class="swiper-arrow-custom swiper-arrow-next"><i class="ti ti-chevron-right"></i></button>
         </div>
       </div>
+      
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
     </div>
   </section>
 
@@ -110,9 +261,9 @@
           .product-card-custom .product-title a { color: #1a1a1a; text-decoration: none; transition: color 0.2s; }
           .product-card-custom .product-title a:hover { color: var(--primary-color, #e66239); }
           .product-card-custom .product-price { font-weight: 800; font-size: 1.35rem; color: var(--primary-color, #e66239); }
-          .product-card-custom .cart-btn-overlay { position: absolute; bottom: 15px; left: 0; right: 0; text-align: center; opacity: 0; transform: translateY(15px); transition: all 0.3s ease; z-index: 10; }
-          .product-card-custom:hover .cart-btn-overlay { opacity: 1; transform: translateY(0); }
-          .product-card-custom .cart-btn-overlay .btn { border-radius: 50px; padding: 10px 24px; font-weight: 600; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+          .product-card-custom .cart-btn-overlay { position: absolute; top: 0; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.4s ease; z-index: 10; }
+          .product-card-custom:hover .cart-btn-overlay { opacity: 1; }
+          .product-card-custom .cart-btn-overlay .btn { border-radius: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8rem; }
         </style>
         <div class="row g-4">
           @foreach($products as $product)
@@ -121,7 +272,10 @@
               <a href="{{ route('product.show', $product->id) }}" class="image-holder d-block text-decoration-none">
                 <img src="{{ $product->image ? asset($product->image) : asset('images/product-item1.jpg') }}" alt="{{ $product->name }}" class="img-fluid w-100" style="height: 280px;">
                 <div class="cart-btn-overlay">
-                  <object><a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white">Add to Cart</a></object>
+                  <div class="d-flex flex-column gap-2 px-4 w-100">
+                    <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white py-2">Add to Cart</a>
+                    <a href="{{ route('cart.buy', $product->id) }}" class="btn btn-primary text-white py-2">Buy Now</a>
+                  </div>
                 </div>
               </a>
               <div class="card-detail p-4 d-flex flex-column flex-grow-1 bg-white">
