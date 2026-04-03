@@ -158,7 +158,7 @@
       <!-- Brand -->
       <div class="col-lg-4 col-md-12">
         <div class="d-flex align-items-center gap-2 mb-3">
-          <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" style="max-height: 40px; filter: brightness(0) invert(1);">
+          <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" class="img-fluid" style="max-height: 55px; filter: brightness(0) invert(1); display: block !important; opacity: 1 !important;">
         </div>
         <p class="mb-4 small lh-base pe-lg-4">Premium hardware and professional trading solutions. Octal Traders is your trusted partner in high-performance technology.</p>
         <div class="social-links">

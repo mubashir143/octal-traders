@@ -149,7 +149,7 @@
     <div class="container">
       <!-- Logo -->
       <a class="navbar-brand me-4 d-flex align-items-center" href="{{ route('home') }}">
-        <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" style="max-height: 44px; transition: all 0.3s ease;">
+        <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" style="max-height: 55px; transition: all 0.3s ease;">
       </a>
 
       <!-- Mobile Toggle -->
