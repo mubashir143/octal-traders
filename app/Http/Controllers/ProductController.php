@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -12,14 +13,14 @@ class ProductController extends Controller
         $query = Product::latest();
 
         if ($request->has('category')) {
-            $category = \App\Models\Category::where('slug', $request->category)->first();
+            $category = Category::where('slug', $request->category)->first();
             if ($category) {
                 $query->where('category', $category->name);
             }
         }
 
         $products = $query->paginate(12)->withQueryString();
-        $categories = \App\Models\Category::all();
+        $categories = Category::all();
 
         return view('shop', compact('products', 'categories'));
     }

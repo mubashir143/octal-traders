@@ -106,6 +106,12 @@
       100% { transform: translatey(0px); }
     }
 
+    .product-swiper-wrapper {
+      position: relative;
+      padding: 0 45px; /* Add padding to make space for arrows */
+    }
+
+    /* Base styling for all swiper arrows (Banner + Products) */
     .swiper-arrow-custom {
       width: 50px;
       height: 50px;
@@ -118,12 +124,65 @@
       align-items: center;
       justify-content: center;
       color: var(--dark-color);
+      cursor: pointer;
     }
 
     .swiper-arrow-custom:hover {
       background: var(--primary-color);
       color: white;
       transform: scale(1.1);
+    }
+
+    .product-swiper-wrapper {
+      position: relative;
+      padding: 0 45px;
+      margin-top: 20px;
+    }
+
+    /* Positioning and refinement specialized for product sliders */
+    .product-swiper-wrapper .swiper-arrow-custom {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.08);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-100%);
+      z-index: 20;
+    }
+
+    .product-swiper-wrapper .swiper-arrow-custom:hover {
+      transform: translateY(-100%) scale(1.1);
+      box-shadow: 0 15px 35px rgba(230,98,57,0.3);
+    }
+
+    .product-swiper-wrapper .swiper-prev { left: -5px; }
+    .product-swiper-wrapper .swiper-next { right: -5px; }
+
+    .swiper-pagination-custom {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .swiper-pagination-bullet {
+      width: 8px;
+      height: 8px;
+      background: #CBD5E1;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+      margin: 0 6px !important;
+    }
+
+    .swiper-pagination-bullet-active {
+      width: 24px;
+      border-radius: 12px;
+      background: var(--primary-color);
+      opacity: 1;
+    }
+
+    @media (max-width: 991px) {
+      .product-swiper-wrapper { padding: 0; }
+      .product-swiper-wrapper .swiper-arrow-custom { display: none; }
     }
   </style>
 
@@ -177,7 +236,7 @@
       </div>
 
       <!-- Navigation Custom -->
-      <div class="container position-absolute bottom-0 start-50 translate-middle-x pb-5 z-3 d-none d-md-block">
+      <div class="container position-absolute bottom-0 start-50 translate-middle-x pb-5 z-index-top d-none d-md-block" style="z-index: 99;">
         <div class="d-flex gap-3 justify-content-end">
           <button class="swiper-arrow-custom swiper-arrow-prev"><i class="ti ti-chevron-left"></i></button>
           <button class="swiper-arrow-custom swiper-arrow-next"><i class="ti ti-chevron-right"></i></button>
@@ -218,29 +277,6 @@
     </div>
   </section>
 
-  <section id="categories" class="padding-large no-padding-top">
-    <div class="container">
-      <div class="display-header d-flex justify-content-between pb-3">
-        <h2 class="display-7 text-dark text-uppercase">Shop By Category</h2>
-      </div>
-      <div class="row g-4 d-flex justify-content-start">
-        @foreach($categories as $category)
-        <div class="col-lg-2 col-md-4 col-6 text-center">
-          <a href="{{ route('shop', ['category' => $category->slug]) }}" class="text-decoration-none">
-            <div class="card border-0 shadow-sm p-4 category-card bg-light h-100 d-flex justify-content-center align-items-center">
-              <h6 class="text-uppercase m-0 fw-bold">{{ $category->name }}</h6>
-            </div>
-          </a>
-        </div>
-        @endforeach
-      </div>
-    </div>
-  </section>
-  <style>
-    .category-card { transition: all 0.3s ease; border-radius: 12px; }
-    .category-card:hover { transform: translateY(-5px); background: var(--primary-color) !important; box-shadow: 0 10px 20px rgba(230,98,57,0.2) !important; }
-    .category-card:hover h6 { color: white; }
-  </style>
 
   <section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
     <div class="container">
@@ -263,36 +299,99 @@
           .product-card-custom .product-price { font-weight: 800; font-size: 1.35rem; color: var(--primary-color, #e66239); }
           .product-card-custom .cart-btn-overlay { position: absolute; top: 0; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.4s ease; z-index: 10; }
           .product-card-custom:hover .cart-btn-overlay { opacity: 1; }
-          .product-card-custom .cart-btn-overlay .btn { border-radius: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8rem; }
+          .product-card-custom .cart-btn-overlay .btn { border-radius: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8rem; position: relative; z-index: 20; }
+          .card-link-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
         </style>
-        <div class="row g-4">
-          @foreach($products as $product)
-          <div class="col-lg-3 col-md-6 mb-4">
-            <div class="product-card-custom position-relative">
-              <a href="{{ route('product.show', $product->id) }}" class="image-holder d-block text-decoration-none">
-                <img src="{{ $product->image ? asset($product->image) : asset('images/product-item1.jpg') }}" alt="{{ $product->name }}" class="img-fluid w-100" style="height: 280px;">
-                <div class="cart-btn-overlay">
-                  <div class="d-flex flex-column gap-2 px-4 w-100">
-                    <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white py-2">Add to Cart</a>
-                    <a href="{{ route('cart.buy', $product->id) }}" class="btn btn-primary text-white py-2">Buy Now</a>
+        <div class="product-swiper-wrapper">
+          <div class="swiper product-swiper">
+            <div class="swiper-wrapper">
+              @foreach($products as $product)
+              <div class="swiper-slide mb-4">
+                <div class="product-card-custom position-relative">
+                  <a href="{{ route('product.show', $product->id) }}" class="card-link-overlay"></a>
+                  <div class="image-holder d-block">
+                    <img src="{{ $product->image ? asset($product->image) : asset('images/product-item1.jpg') }}" alt="{{ $product->name }}" class="img-fluid w-100" style="height: 280px;">
+                    <div class="cart-btn-overlay">
+                      <div class="d-flex flex-column gap-2 px-4 w-100">
+                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white py-2">Add to Cart</a>
+                        <a href="{{ route('cart.buy', $product->id) }}" class="btn btn-primary text-white py-2">Buy Now</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-detail p-4 d-flex flex-column flex-grow-1 bg-white">
+                    <h3 class="product-title">
+                      <a href="{{ route('product.show', $product->id) }}" style="position: relative; z-index: 10;">{{ $product->name }}</a>
+                    </h3>
+                    <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
+                      <span class="product-price">${{ number_format($product->price, 2) }}</span>
+                    </div>
                   </div>
                 </div>
-              </a>
-              <div class="card-detail p-4 d-flex flex-column flex-grow-1 bg-white">
-                <h3 class="product-title">
-                  <a href="{{ route('product.show', $product->id) }}">{{ $product->name }}</a>
-                </h3>
-                <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
-                  <span class="product-price">${{ number_format($product->price, 2) }}</span>
-                </div>
               </div>
+              @endforeach
             </div>
           </div>
-          @endforeach
+          <!-- Navigation Arrows (Outside swiper for overflow) -->
+          <button class="swiper-arrow-custom swiper-prev"><i class="ti ti-arrow-left"></i></button>
+          <button class="swiper-arrow-custom swiper-next"><i class="ti ti-arrow-right"></i></button>
+          
+          <!-- Pagination Dots -->
+          <div class="swiper-pagination swiper-pagination-custom"></div>
         </div>
       </div>
     </div>
   </section>
+
+  @foreach($categoriesWithProducts as $category)
+  <section id="{{ $category->slug }}-products" class="product-store position-relative padding-large no-padding-top">
+    <div class="container">
+      <div class="row">
+        <div class="display-header d-flex justify-content-between pb-3">
+          <h2 class="display-7 text-dark text-uppercase">{{ $category->name }}</h2>
+          <div class="btn-right">
+            <a href="{{ route('shop', ['category' => $category->slug]) }}" class="btn btn-medium btn-normal text-uppercase">View All</a>
+          </div>
+        </div>
+        <div class="product-swiper-wrapper">
+          <div class="swiper product-swiper">
+            <div class="swiper-wrapper">
+              @foreach($category->products as $product)
+              <div class="swiper-slide mb-4">
+                <div class="product-card-custom position-relative">
+                  <a href="{{ route('product.show', $product->id) }}" class="card-link-overlay"></a>
+                  <div class="image-holder d-block">
+                    <img src="{{ $product->image ? asset($product->image) : asset('images/product-item1.jpg') }}" alt="{{ $product->name }}" class="img-fluid w-100" style="height: 280px;">
+                    <div class="cart-btn-overlay">
+                      <div class="d-flex flex-column gap-2 px-4 w-100">
+                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white py-2">Add to Cart</a>
+                        <a href="{{ route('cart.buy', $product->id) }}" class="btn btn-primary text-white py-2">Buy Now</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-detail p-4 d-flex flex-column flex-grow-1 bg-white">
+                    <h3 class="product-title">
+                      <a href="{{ route('product.show', $product->id) }}" style="position: relative; z-index: 10;">{{ $product->name }}</a>
+                    </h3>
+                    <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
+                      <span class="product-price">${{ number_format($product->price, 2) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              @endforeach
+            </div>
+          </div>
+          <!-- Navigation Arrows (Outside swiper for overflow) -->
+          <button class="swiper-arrow-custom swiper-prev"><i class="ti ti-arrow-left"></i></button>
+          <button class="swiper-arrow-custom swiper-next"><i class="ti ti-arrow-right"></i></button>
+          
+          <!-- Pagination Dots -->
+          <div class="swiper-pagination swiper-pagination-custom"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  @endforeach
 
   @include('partials.footer')
 
@@ -309,5 +408,52 @@
     <symbol id="youtube" viewBox="0 0 32 32"><path fill="currentColor" d="M29.41 9.26a3.5 3.5 0 0 0-2.47-2.47C24.76 6.2 16 6.2 16 6.2s-8.76 0-10.94.59a3.5 3.5 0 0 0-2.47 2.47A36.13 36.13 0 0 0 2 16a36.13 36.13 0 0 0 .59 6.74a3.5 3.5 0 0 0 2.47 2.47c2.18.59 10.94.59 10.94.59s8.76 0 10.94-.59a3.5 3.5 0 0 0 2.47-2.47A36.13 36.13 0 0 0 30 16a36.13 36.13 0 0 0-.59-6.74ZM13.2 20.2v-8.4l7.27 4.2Z" /></symbol>
   </svg>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize all product swipers
+      document.querySelectorAll('.product-swiper-wrapper').forEach(function(wrapper) {
+        const swiperContainer = wrapper.querySelector('.product-swiper');
+        const nextEl = wrapper.querySelector('.swiper-next');
+        const prevEl = wrapper.querySelector('.swiper-prev');
+        const paginationEl = wrapper.querySelector('.swiper-pagination');
+        
+        new Swiper(swiperContainer, {
+          slidesPerView: 4,
+          spaceBetween: 24,
+          loop: true,
+          grabCursor: true,
+          speed: 1500, // Slower transition for "slow slow" feel
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          },
+          navigation: {
+            nextEl: nextEl,
+            prevEl: prevEl,
+          },
+          pagination: {
+            el: paginationEl,
+            clickable: true,
+          },
+          mousewheel: {
+            forceToAxis: true,
+          },
+          preventClicks: true,
+          preventClicksPropagation: true,
+          touchEventsTarget: 'container',
+          simulateTouch: true,
+          shortSwipes: true,
+          longSwipes: true,
+          breakpoints: {
+            0: { slidesPerView: 1.3, spaceBetween: 16 },
+            576: { slidesPerView: 2, spaceBetween: 16 },
+            992: { slidesPerView: 3, spaceBetween: 24 },
+            1200: { slidesPerView: 4, spaceBetween: 24 }
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

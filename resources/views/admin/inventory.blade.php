@@ -56,11 +56,11 @@
                         <td>{{ $product->unit }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>
-                            <a href="#"><i class="ti ti-edit"></i></a>
-                            <form action="#" method="POST" style="display:inline;">
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-sm btn-icon btn-light me-1" title="Edit"><i class="ti ti-edit"></i></a>
+                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this product?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-link link-danger p-0 ms-2"><i class="ti ti-trash"></i></button>
+                                <button type="submit" class="btn btn-sm btn-icon btn-light link-danger" title="Delete"><i class="ti ti-trash"></i></button>
                             </form>
                         </td>
                     </tr>

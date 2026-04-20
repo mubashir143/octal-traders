@@ -24,9 +24,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', function () {
     $products = Product::latest()->take(10)->get();
     $categories = Category::all();
+    $categoriesWithProducts = Category::whereHas('products')
+        ->with(['products' => function ($query) {
+            $query->latest()->take(4);
+        }])->get();
     $banners = Banner::where('status', true)->orderBy('order')->get();
 
-    return view('index', compact('products', 'categories', 'banners'));
+    return view('index', compact('products', 'categories', 'categoriesWithProducts', 'banners'));
 })->name('home');
 
 // Shop Routes
@@ -58,6 +62,9 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::get('/inventory', [DashboardController::class, 'inventory'])->name('inventory');
     Route::get('/products/create', [DashboardController::class, 'create'])->name('products.create');
     Route::post('/products/store', [DashboardController::class, 'store'])->name('products.store');
+    Route::get('/products/{product}/edit', [DashboardController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [DashboardController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}', [DashboardController::class, 'destroy'])->name('products.destroy');
 
     // Admin Order Management
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');

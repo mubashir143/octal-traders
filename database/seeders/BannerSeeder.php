@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Banner;
 use Illuminate\Database\Seeder;
 
 class BannerSeeder extends Seeder
@@ -11,7 +12,7 @@ class BannerSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Banner::firstOrCreate([
+        Banner::firstOrCreate([
             'title' => 'Your Products Are Great.',
             'subtitle' => 'Explore our featured collections.',
             'image' => 'images/banner-image.png',

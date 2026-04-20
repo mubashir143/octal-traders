@@ -76,43 +76,6 @@
         },
       });         
 
-      var swiper = new Swiper(".product-swiper", {
-        slidesPerView: 4,
-        spaceBetween: 10,
-        pagination: {
-          el: "#mobile-products .swiper-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          0: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          980: {
-            slidesPerView: 4,
-            spaceBetween: 20,
-          }
-        },
-      });      
-
-      var swiper = new Swiper(".product-watch-swiper", {
-        slidesPerView: 4,
-        spaceBetween: 10,
-        pagination: {
-          el: "#smart-watches .swiper-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          0: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          980: {
-            slidesPerView: 4,
-            spaceBetween: 20,
-          }
-        },
-      }); 
 
       var swiper = new Swiper(".testimonial-swiper", {
         loop: true,

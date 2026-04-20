@@ -6,6 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}">
+    <style>
+        .product-content-area {
+            line-height: 1.6;
+            color: #4B5563;
+        }
+        .product-content-area ul, .product-content-area ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .product-content-area h1, .product-content-area h2, .product-content-area h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #111827;
+        }
+        .product-content-area p {
+            margin-bottom: 1rem;
+        }
+        .product-content-area strong {
+            font-weight: 700;
+            color: #111827;
+        }
+    </style>
 </head>
 <body class="bg-light">
     @include('partials.header')
@@ -37,7 +59,9 @@
                         </div>
                         <div class="description mb-4">
                             <h6 class="text-uppercase mb-2">Product Description</h6>
-                            <p class="text-secondary">{{ $product->description ?? 'No description available for this product.' }}</p>
+                            <div class="text-secondary product-content-area">
+                                {!! $product->description ?? 'No description available for this product.' !!}
+                            </div>
                         </div>
                         <div class="cart-action mb-4 pt-3">
                             <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark btn-medium px-5 text-uppercase rounded-0">Add to Cart</a>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,13 +12,14 @@ class OrderController extends Controller
     public function checkout()
     {
         $cart = session()->get('cart', []);
-        if(empty($cart)) {
+        if (empty($cart)) {
             return redirect()->route('shop')->with('error', 'Your cart is empty!');
         }
         $total = 0;
-        foreach($cart as $item) {
+        foreach ($cart as $item) {
             $total += $item['price'] * $item['quantity'];
         }
+
         return view('checkout', compact('cart', 'total'));
     }
 
@@ -33,14 +33,14 @@ class OrderController extends Controller
         ]);
 
         $cart = session()->get('cart', []);
-        if(empty($cart)) {
+        if (empty($cart)) {
             return redirect()->route('shop')->with('error', 'Your cart is empty!');
         }
 
         DB::beginTransaction();
         try {
             $total = 0;
-            foreach($cart as $item) {
+            foreach ($cart as $item) {
                 $total += $item['price'] * $item['quantity'];
             }
 
@@ -53,7 +53,7 @@ class OrderController extends Controller
                 'status' => 'pending',
             ]);
 
-            foreach($cart as $id => $item) {
+            foreach ($cart as $id => $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $id,
@@ -65,10 +65,12 @@ class OrderController extends Controller
 
             DB::commit();
             session()->forget('cart');
-            return redirect()->route('home')->with('success', 'Order placed successfully! Transaction ID: ' . $order->id);
+
+            return redirect()->route('home')->with('success', 'Order placed successfully! Transaction ID: '.$order->id);
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return redirect()->back()->with('error', 'Something went wrong while placing the order.');
         }
     }
