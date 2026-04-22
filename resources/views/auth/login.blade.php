@@ -19,7 +19,7 @@
     .auth-subtitle { color: rgba(255,255,255,0.5); font-size: 0.9rem; }
     .auth-link { color: #e66239; text-decoration: none; font-weight: 600; }
     .auth-link:hover { color: #f07c52; }
-    .logo-area img { max-height: 50px; filter: brightness(0) invert(1); }
+    .logo-area img { max-height: 50px; background: white; padding: 5px; border-radius: 10px; }
   </style>
 </head>
 <body>
@@ -28,7 +28,7 @@
       <div class="col-md-5 col-lg-4">
         <div class="text-center mb-4">
           <a href="{{ route('home') }}">
-            <img src="{{ asset('images/main-logo.png') }}" class="logo-area" alt="Octal Traders" style="max-height:50px; filter: brightness(0) invert(1);">
+            <img src="{{ asset('images/main-logo.png') }}" class="logo-area" alt="Octal Traders">
           </a>
         </div>
         <div class="auth-card">

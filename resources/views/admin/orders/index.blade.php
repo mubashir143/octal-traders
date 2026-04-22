@@ -46,8 +46,9 @@
                             </span>
                         </td>
                         <td>{{ $order->created_at->format('M d, Y') }}</td>
-                        <td>
+                        <td class="d-flex gap-2">
                             <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-outline-primary">View Details</a>
+                            <a href="{{ route('admin.orders.print', $order->id) }}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="ti ti-printer"></i> Print</a>
                         </td>
                     </tr>
                     @endforeach

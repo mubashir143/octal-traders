@@ -71,7 +71,9 @@
     }
     .logo-area img { 
       max-height: 60px; 
-      filter: brightness(0) invert(1); 
+      background: white; 
+      padding: 5px; 
+      border-radius: 12px; 
     }
     .admin-badge {
       background: rgba(230, 98, 57, 0.2);
@@ -93,7 +95,7 @@
       <div class="col-md-5 col-lg-4">
         <div class="text-center mb-4">
           <a href="{{ route('home') }}">
-            <img src="{{ asset('images/main-logo.png') }}" class="logo-area" alt="Octal Traders" style="max-height:60px; filter: brightness(0) invert(1);">
+            <img src="{{ asset('images/main-logo.png') }}" class="logo-area" alt="Octal Traders">
           </a>
         </div>
         <div class="auth-card">

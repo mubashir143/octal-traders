@@ -17,7 +17,7 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        $order->load('items.product');
+        $order->load('items.product', 'items.deal.products');
 
         return view('admin.orders.show', compact('order'));
     }
@@ -31,5 +31,12 @@ class OrderController extends Controller
         $order->update(['status' => $request->status]);
 
         return redirect()->back()->with('success', 'Order status updated successfully!');
+    }
+
+    public function print(Order $order)
+    {
+        $order->load('items.product', 'items.deal.products');
+
+        return view('admin.orders.print', compact('order'));
     }
 }

@@ -35,6 +35,41 @@
     top: 0;
   }
 
+  @media (max-width: 991px) {
+    .main-header {
+      height: 70px !important;
+      background: white !important;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .main-header.scrolled {
+      margin: 0 !important;
+      width: 100% !important;
+      border-radius: 0 !important;
+      border: none !important;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .nav-link-custom {
+      padding: 12px 20px !important;
+      margin: 4px 0;
+      font-size: 1rem;
+    }
+    .navbar-collapse {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-height: calc(100vh - 70px);
+      overflow-y: auto;
+    }
+    .btn-premium {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
   .nav-link-custom {
     color: var(--dark-color);
     font-weight: 600;
@@ -149,7 +184,7 @@
     <div class="container">
       <!-- Logo -->
       <a class="navbar-brand me-4 d-flex align-items-center" href="{{ route('home') }}">
-        <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" style="max-height: 55px; transition: all 0.3s ease;">
+        <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" style="max-height: 55px; transition: all 0.3s ease; mix-blend-mode: multiply;">
       </a>
 
       <!-- Mobile Toggle -->
@@ -164,15 +199,35 @@
             <a class="nav-link nav-link-custom {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom {{ request()->routeIs('shop') ? 'active' : '' }}" href="{{ route('shop') }}">Shop</a>
+            <a class="nav-link nav-link-custom {{ (request()->routeIs('shop') && !request('filter') && !request('category')) ? 'active' : '' }}" href="{{ route('shop') }}">Shop</a>
           </li>
-          <li class="nav-item"><a class="nav-link nav-link-custom" href="#">About</a></li>
-          <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Services</a></li>
-          <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Contact</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle shadow-none {{ request('category') ? 'active' : '' }}" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categories
+            </a>
+            <ul class="dropdown-menu dropdown-menu-custom animate slideIn" aria-labelledby="categoryDropdown">
+              @foreach($headerCategories as $cat)
+                <li><a class="dropdown-item dropdown-item-custom {{ request('category') == $cat->slug ? 'active' : '' }}" href="{{ route('shop', ['category' => $cat->slug]) }}">{{ $cat->name }}</a></li>
+              @endforeach
+              <li><hr class="dropdown-divider mx-2 opacity-5"></li>
+              <li><a class="dropdown-item dropdown-item-custom" href="{{ route('shop') }}">View All</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom {{ request('filter') == 'deals' ? 'active' : '' }}" href="{{ route('shop', ['filter' => 'deals']) }}">Deals</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="#footer">Contact</a>
+          </li>
         </ul>
 
         <!-- Right Side Items -->
         <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 ms-lg-3">
+          <!-- Search Toggle -->
+          <div class="avatar-wrap search-trigger" data-bs-toggle="modal" data-bs-target="#searchModal">
+            <i class="ti ti-search fs-5 text-muted"></i>
+          </div>
+
           <!-- Cart Pill -->
           <a href="{{ route('cart.index') }}" class="cart-pill">
             <i class="ti ti-shopping-cart fs-5"></i>
@@ -216,6 +271,34 @@
     </div>
   </nav>
 </header>
+
+<!-- Search Modal -->
+<div class="modal fade modal-fullscreen" id="searchModal" tabindex="-1">
+  <div class="modal-dialog modal-fullscreen">
+    <div class="modal-content" style="background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(20px);">
+      <div class="modal-body d-flex align-items-center justify-content-center">
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-5" data-bs-dismiss="modal" aria-label="Close" style="width: 40px; height: 40px;"></button>
+        <div class="container text-center">
+          <form action="{{ route('shop') }}" method="GET" class="w-100 mx-auto" style="max-width: 800px;">
+            <p class="text-uppercase text-primary fw-bold tracking-widest mb-4">What are you looking for?</p>
+            <div class="position-relative">
+              <input type="text" name="search" class="form-control bg-transparent border-0 border-bottom border-secondary text-white fs-1 text-center py-4 shadow-none" placeholder="Type here..." autofocus>
+              <button type="submit" class="position-absolute end-0 top-50 translate-middle-y border-0 bg-transparent text-white opacity-50 hover-opacity-100 transition">
+                <i class="ti ti-arrow-right fs-1"></i>
+              </button>
+            </div>
+            <div class="mt-5 d-flex gap-3 justify-content-center flex-wrap">
+              <span class="text-muted">Popular:</span>
+              <a href="{{ route('shop', ['category' => 'headphones']) }}" class="text-light text-decoration-none hover-text-primary px-3 py-1 rounded-pill border border-secondary border-opacity-25 transition">Headphones</a>
+              <a href="{{ route('shop', ['category' => 'speakers']) }}" class="text-light text-decoration-none hover-text-primary px-3 py-1 rounded-pill border border-secondary border-opacity-25 transition">Speakers</a>
+              <a href="{{ route('shop', ['category' => 'smart-watches']) }}" class="text-light text-decoration-none hover-text-primary px-3 py-1 rounded-pill border border-secondary border-opacity-25 transition">Watches</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   window.addEventListener('scroll', function() {

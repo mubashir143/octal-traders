@@ -27,7 +27,7 @@
       <div class="col-md-5 col-lg-4">
         <div class="text-center mb-4">
           <a href="{{ route('home') }}">
-            <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" style="max-height:50px; filter: brightness(0) invert(1);">
+            <img src="{{ asset('images/main-logo.png') }}" alt="Octal Traders" style="max-height:50px; background: white; padding: 5px; border-radius: 10px;">
           </a>
         </div>
         <div class="auth-card">

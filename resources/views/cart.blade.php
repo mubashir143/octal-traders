@@ -6,6 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/main-logo.png') }}">
+    <style>
+        @media (max-width: 991px) {
+            .padding-large { padding-top: 50px !important; padding-bottom: 50px !important; }
+            .display-7 { font-size: 1.8rem !important; }
+            
+            /* Responsive Table to Cards */
+            .table thead { display: none; }
+            .table tr { 
+                display: block; 
+                border: 1px solid #eee; 
+                border-radius: 15px; 
+                margin-bottom: 20px; 
+                padding: 15px;
+                background: white;
+            }
+            .table td { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                padding: 10px 0 !important;
+                border: none !important;
+            }
+            .table td::before { 
+                content: attr(data-label); 
+                font-weight: bold; 
+                text-transform: uppercase; 
+                font-size: 0.75rem; 
+                color: #666;
+            }
+            .table td:first-child { display: block; text-align: center; }
+            .table td:first-child::before { display: none; }
+            .table td:last-child { justify-content: center; }
+        }
+    </style>
 </head>
 <body class="bg-light">
     <!-- SVG SYMBOLS START -->
@@ -51,7 +86,7 @@
                                 <tbody>
                                     @foreach($cart as $id => $details)
                                     <tr class="border-bottom" data-id="{{ $id }}">
-                                        <td class="p-3">
+                                        <td class="p-3" data-label="Product">
                                             <div class="d-flex align-items-center">
                                                 <img src="{{ $details['image'] ? asset($details['image']) : asset('images/product-item1.jpg') }}" alt="product" class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
                                                 <div class="ms-3">
@@ -59,11 +94,11 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="p-3">${{ $details['price'] }}</td>
-                                        <td class="p-3" style="width: 130px;">
+                                        <td class="p-3" data-label="Price">Rs. {{ $details['price'] }}</td>
+                                        <td class="p-3" data-label="Quantity" style="width: 130px;">
                                             <input type="number" value="{{ $details['quantity'] }}" class="form-control quantity update-cart" min="1">
                                         </td>
-                                        <td class="p-3">${{ $details['price'] * $details['quantity'] }}</td>
+                                        <td class="p-3" data-label="Total">Rs. {{ $details['price'] * $details['quantity'] }}</td>
                                         <td class="p-3 text-end">
                                             <button class="btn btn-sm btn-outline-danger remove-from-cart border-0 shadow-none"><i class="ti ti-trash"></i> Remove</button>
                                         </td>
@@ -85,7 +120,7 @@
                             <h5 class="text-uppercase mb-4">Order Summary</h5>
                             <div class="d-flex justify-content-between mb-2">
                                 <span class="text-muted">Subtotal</span>
-                                <span>${{ $total }}</span>
+                                <span>Rs. {{ $total }}</span>
                             </div>
                             <div class="d-flex justify-content-between mb-4">
                                 <span class="text-muted">Shipping</span>
@@ -94,7 +129,7 @@
                             <hr>
                             <div class="d-flex justify-content-between mb-4">
                                 <span class="fw-bold text-uppercase">Total</span>
-                                <span class="fw-bold fs-5">${{ $total }}</span>
+                                <span class="fw-bold fs-5">Rs. {{ $total }}</span>
                             </div>
                             <a href="{{ route('checkout') }}" class="btn btn-dark btn-medium w-100 text-uppercase rounded-0">Proceed to Checkout</a>
                         </div>

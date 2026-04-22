@@ -26,7 +26,7 @@ Route::get('/', function () {
     $categories = Category::all();
     $categoriesWithProducts = Category::whereHas('products')
         ->with(['products' => function ($query) {
-            $query->latest()->take(4);
+            $query->latest()->take(12);
         }])->get();
     $banners = Banner::where('status', true)->orderBy('order')->get();
 
@@ -36,10 +36,12 @@ Route::get('/', function () {
 // Shop Routes
 Route::get('/shop', [ProductController::class, 'index'])->name('shop');
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
+Route::post('/product/{product}/review', [ProductController::class, 'storeReview'])->name('product.review.store');
 
 // Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/add-to-cart/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::get('/add-deal/{deal}', [CartController::class, 'addDeal'])->name('cart.add-deal');
 Route::get('/buy-now/{product}', [CartController::class, 'buy'])->name('cart.buy');
 Route::patch('/update-cart', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/remove-from-cart', [CartController::class, 'remove'])->name('cart.remove');
@@ -65,10 +67,13 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::get('/products/{product}/edit', [DashboardController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}', [DashboardController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [DashboardController::class, 'destroy'])->name('products.destroy');
+    Route::delete('/product-images/{image}', [DashboardController::class, 'deleteImage'])->name('products.delete-image');
+    Route::post('/product-images/{image}/set-main', [DashboardController::class, 'setMainImage'])->name('products.set-main-image');
 
     // Admin Order Management
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{order}/print', [AdminOrderController::class, 'print'])->name('orders.print');
     Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
 
     // Admin Categories Management
@@ -79,4 +84,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
 
     // Admin Banner Management
     Route::resource('banners', BannerController::class);
+
+    // Admin Deals Management
+    Route::resource('deals', \App\Http\Controllers\Admin\DealController::class);
 });

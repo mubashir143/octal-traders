@@ -19,7 +19,10 @@
 <div class="row">
     <div class="col-12">
         <div class="d-flex gap-2 mb-3 flex-wrap justify-content-between">
-            <input type="text" class="form-control" placeholder="Search products..." style="max-width: 250px;">
+            <form action="{{ route('admin.inventory') }}" method="GET" class="d-flex gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Search products..." value="{{ request('search') }}" style="max-width: 250px;">
+                <button type="submit" class="btn btn-light"><i class="ti ti-search"></i></button>
+            </form>
             <div class="d-flex gap-2">
                 <button class="btn btn-outline-secondary"><i class="ti ti-filter"></i> Filter</button>
                 <button class="btn btn-outline-secondary"><i class="ti ti-file-excel"></i> Excel</button>
@@ -44,7 +47,7 @@
 @foreach($products as $product)
                     <tr class="align-middle">
                         <td>
-                            <a href="">
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="text-decoration-none d-flex align-items-center">
                                 <img src="{{ $product->image ? asset($product->image) : asset('admin-assets/images/product-1.png') }}" alt="{{ $product->name }}" class="avatar avatar-md rounded" />
                                 <span class="ms-3">{{ $product->name }}</span>
                             </a>
@@ -52,7 +55,7 @@
                         <td>{{ $product->code }}</td>
                         <td>{{ $product->category }}</td>
                         <td>{{ $product->brand }}</td>
-                        <td>${{ $product->price }}</td>
+                        <td>Rs. {{ $product->price }}</td>
                         <td>{{ $product->unit }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>

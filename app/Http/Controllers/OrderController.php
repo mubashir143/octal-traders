@@ -54,9 +54,12 @@ class OrderController extends Controller
             ]);
 
             foreach ($cart as $id => $item) {
+                $isDeal = isset($item['is_deal']) && $item['is_deal'];
+                
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_id' => $id,
+                    'product_id' => $isDeal ? null : $id,
+                    'deal_id' => $isDeal ? str_replace('deal_', '', $id) : null,
                     'quantity' => $item['quantity'],
                     'unit_price' => $item['price'],
                     'total_price' => $item['price'] * $item['quantity'],

@@ -7,8 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}">
+  <link rel="icon" type="image/png" href="{{ asset('images/main-logo.png') }}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
   <style>
+    .animate.slideIn { animation: slideIn 0.3s ease-out forwards; }
+
+    @media (max-width: 991px) {
+      .main-header { background: white !important; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+      .main-header.scrolled { margin: 10px; width: calc(100% - 20px) !important; border-radius: 16px; }
+      .navbar-brand img { max-height: 45px !important; }
+      
+      .display-banner { font-size: 2.2rem !important; letter-spacing: -1px !important; }
+      .billboard-v3 { height: auto !important; min-height: 400px; padding: 40px 0 !important; margin-top: 70px !important; }
+      .banner-glass-card { padding: 30px !important; border-radius: 24px !important; }
+      .padding-large { padding-top: 60px !important; padding-bottom: 60px !important; }
+      .padding-medium { padding-top: 40px !important; padding-bottom: 40px !important; }
+      .display-7 { font-size: 1.8rem !important; }
+      .swiper-arrow-custom { display: none !important; }
+    }
+
     .swiper-arrow { transition: all 0.3s ease; border: 1px solid rgba(0,0,0,0.1); }
     .swiper-arrow:hover { background-color: var(--primary-color) !important; color: white !important; border-color: var(--primary-color) !important; transform: translateY(-50%) scale(1.1); }
   </style>
@@ -76,7 +93,7 @@
     }
 
     .floating-badge {
-      display: inline-block;
+    display: inline-block;
       background: rgba(230, 98, 57, 0.1);
       color: var(--primary-color);
       padding: 8px 20px;
@@ -106,10 +123,6 @@
       100% { transform: translatey(0px); }
     }
 
-    .product-swiper-wrapper {
-      position: relative;
-      padding: 0 45px; /* Add padding to make space for arrows */
-    }
 
     /* Base styling for all swiper arrows (Banner + Products) */
     .swiper-arrow-custom {
@@ -135,32 +148,37 @@
 
     .product-swiper-wrapper {
       position: relative;
-      padding: 0 45px;
-      margin-top: 20px;
+      padding: 0 80px; /* Increased from 45px for breathing space */
+      margin-top: 30px;
     }
 
-    /* Positioning and refinement specialized for product sliders */
     .product-swiper-wrapper .swiper-arrow-custom {
-      width: 48px;
-      height: 48px;
+      width: 54px; /* Slightly larger for premium feel */
+      height: 54px;
       border-radius: 50%;
       border: 1px solid rgba(0,0,0,0.08);
       position: absolute;
       top: 50%;
-      transform: translateY(-100%);
-      z-index: 20;
+      transform: translateY(-50%);
+      z-index: 50;
+      background: white;
     }
 
     .product-swiper-wrapper .swiper-arrow-custom:hover {
-      transform: translateY(-100%) scale(1.1);
+      transform: translateY(-50%) scale(1.1);
       box-shadow: 0 15px 35px rgba(230,98,57,0.3);
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
     }
 
-    .product-swiper-wrapper .swiper-prev { left: -5px; }
-    .product-swiper-wrapper .swiper-next { right: -5px; }
+    .product-swiper-wrapper .swiper-prev-custom { left: 15px; }
+    .product-swiper-wrapper .swiper-next-custom { right: 15px; }
 
     .swiper-pagination-custom {
-      margin-top: 40px;
+      margin-top: 30px;
+      position: relative !important;
+      bottom: 0 !important;
       text-align: center;
     }
 
@@ -183,6 +201,128 @@
     @media (max-width: 991px) {
       .product-swiper-wrapper { padding: 0; }
       .product-swiper-wrapper .swiper-arrow-custom { display: none; }
+    }
+
+
+
+    /* Product Card Styles */
+    .product-card-custom { 
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+      border-radius: 16px; 
+      overflow: hidden; 
+      background: #fff; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04); 
+      border: 1px solid #f2f2f2; 
+      height: 100%; 
+      display: flex; 
+      flex-direction: column; 
+    }
+    .product-card-custom:hover { 
+      transform: translateY(-8px); 
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+      border-color: transparent; 
+    }
+    .product-card-custom .image-holder { 
+      overflow: hidden; 
+      position: relative; 
+    }
+    .product-card-custom .image-holder img { 
+      transition: transform 0.6s ease; 
+      object-fit: cover; 
+    }
+    .product-card-custom:hover .image-holder img { 
+      transform: scale(1.08); 
+    }
+    .product-card-custom .product-title { 
+      font-weight: 700; 
+      font-size: 0.95rem; /* Reduced size */
+      letter-spacing: -0.1px; 
+      display: -webkit-box; 
+      -webkit-line-clamp: 2; 
+      -webkit-box-orient: vertical; 
+      overflow: hidden; 
+      line-height: 1.4; 
+      margin-bottom: 0.5rem; 
+    }
+    .product-card-custom .product-title a { 
+      color: #1a1a1a; 
+      text-decoration: none; 
+      transition: color 0.2s; 
+    }
+    .product-card-custom .product-title a:hover { 
+      color: var(--primary-color, #e66239); 
+    }
+    .product-card-custom .product-price { 
+      font-weight: 800; 
+      font-size: 1.15rem; /* Reduced size */
+      color: var(--primary-color, #e66239); 
+    }
+    .product-card-custom .cart-btn-overlay { 
+      position: absolute; 
+      top: 0; 
+      bottom: 0; 
+      left: 0; 
+      right: 0; 
+      background: rgba(255,255,255,0.7); 
+      backdrop-filter: blur(4px); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      opacity: 0; 
+      transition: all 0.4s ease; 
+      z-index: 10; 
+    }
+    .product-card-custom:hover .cart-btn-overlay { 
+      opacity: 1; 
+    }
+    .product-card-custom .cart-btn-overlay .btn { 
+      border-radius: 12px; 
+      font-weight: 700; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+      font-size: 0.8rem; 
+      position: relative; 
+      z-index: 20; 
+    }
+    .card-link-overlay { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 5; 
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 991px) {
+      .display-banner { font-size: 2.8rem !important; margin-bottom: 15px; }
+      .parallax-bg { background-position: 70% center !important; }
+      .banner-glass-card { padding: 30px; text-align: center; }
+      .banner-img-floating { max-height: 320px !important; }
+      .product-card-custom { height: auto !important; }
+      .product-card-custom .image-holder img { height: 220px !important; }
+      .product-card-custom .cart-btn-overlay { 
+        opacity: 1; 
+        top: auto;
+        bottom: 15px;
+        background: transparent; 
+        backdrop-filter: none; 
+        pointer-events: all; 
+        padding: 0 10px;
+      }
+      .product-card-custom .cart-btn-overlay .btn { 
+        padding: 6px 12px; 
+        font-size: 0.7rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .display-header h2 { font-size: 1.5rem; }
+      .padding-large { padding: 40px 0; }
+    }
+    @media (max-width: 576px) {
+      .display-banner { font-size: 2.22rem !important; letter-spacing: -1.5px; }
+      .banner-glass-card { padding: 25px 15px; }
+      .banner-img-floating { max-height: 280px !important; }
+      .padding-large { padding: 30px 0; }
     }
   </style>
 
@@ -237,7 +377,7 @@
 
       <!-- Navigation Custom -->
       <div class="container position-absolute bottom-0 start-50 translate-middle-x pb-5 z-index-top d-none d-md-block" style="z-index: 99;">
-        <div class="d-flex gap-3 justify-content-end">
+        <div class="d-flex gap-4 justify-content-end">
           <button class="swiper-arrow-custom swiper-arrow-prev"><i class="ti ti-chevron-left"></i></button>
           <button class="swiper-arrow-custom swiper-arrow-next"><i class="ti ti-chevron-right"></i></button>
         </div>
@@ -248,28 +388,51 @@
     </div>
   </section>
 
-  <section id="company-services" class="padding-large">
+
+  <section id="company-services" class="padding-medium">
     <div class="container">
       <div class="row">
         <div class="col-lg-3 col-md-6 pb-3">
           <div class="icon-box d-flex">
             <div class="icon-box-icon pe-3 pb-3">
-              <svg class="cart-outline" width="40" height="40"><use xlink:href="#cart-outline" /></svg>
+              <i class="ti ti-truck fs-1 text-primary"></i>
             </div>
             <div class="icon-box-content">
               <h3 class="card-title text-uppercase text-dark">Free delivery</h3>
-              <p>Consectetur adipi elit lorem ipsum dolor sit amet.</p>
+              <p>Enjoy free shipping on all orders over Rs. 10,000.</p>
             </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-6 pb-3">
           <div class="icon-box d-flex">
             <div class="icon-box-icon pe-3 pb-3">
-              <svg class="quality" width="40" height="40"><use xlink:href="#quality" /></svg>
+              <i class="ti ti-rosette-check fs-1 text-primary"></i>
             </div>
             <div class="icon-box-content">
               <h3 class="card-title text-uppercase text-dark">Quality guarantee</h3>
-              <p>Dolor sit amet orem ipsu mcons ectetur adipi elit.</p>
+              <p>We source only the finest products for you.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 pb-3">
+          <div class="icon-box d-flex">
+            <div class="icon-box-icon pe-3 pb-3">
+              <i class="ti ti-tag fs-1 text-primary"></i>
+            </div>
+            <div class="icon-box-content">
+              <h3 class="card-title text-uppercase text-dark">Daily offers</h3>
+              <p>New discounts and amazing deals every day.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 pb-3">
+          <div class="icon-box d-flex">
+            <div class="icon-box-icon pe-3 pb-3">
+              <i class="ti ti-shield-lock fs-1 text-primary"></i>
+            </div>
+            <div class="icon-box-content">
+              <h3 class="card-title text-uppercase text-dark">100% secure payment</h3>
+              <p>Your transactions are safe with SSL encryption.</p>
             </div>
           </div>
         </div>
@@ -278,30 +441,16 @@
   </section>
 
 
-  <section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
+
+  <section id="mobile-products" class="product-store position-relative padding-medium no-padding-top">
     <div class="container">
       <div class="row">
-        <div class="display-header d-flex justify-content-between pb-3">
+        <div class="display-header d-flex justify-content-between pb-5">
           <h2 class="display-7 text-dark text-uppercase">Latest Products</h2>
           <div class="btn-right">
             <a href="{{ route('shop') }}" class="btn btn-medium btn-normal text-uppercase">Go to Shop</a>
           </div>
         </div>
-        <style>
-          .product-card-custom { transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #f2f2f2; height: 100%; display: flex; flex-direction: column; }
-          .product-card-custom:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-color: transparent; }
-          .product-card-custom .image-holder { overflow: hidden; position: relative; }
-          .product-card-custom .image-holder img { transition: transform 0.6s ease; object-fit: cover; }
-          .product-card-custom:hover .image-holder img { transform: scale(1.08); }
-          .product-card-custom .product-title { font-weight: 700; font-size: 1.15rem; letter-spacing: -0.2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; margin-bottom: 0.5rem; }
-          .product-card-custom .product-title a { color: #1a1a1a; text-decoration: none; transition: color 0.2s; }
-          .product-card-custom .product-title a:hover { color: var(--primary-color, #e66239); }
-          .product-card-custom .product-price { font-weight: 800; font-size: 1.35rem; color: var(--primary-color, #e66239); }
-          .product-card-custom .cart-btn-overlay { position: absolute; top: 0; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: all 0.4s ease; z-index: 10; }
-          .product-card-custom:hover .cart-btn-overlay { opacity: 1; }
-          .product-card-custom .cart-btn-overlay .btn { border-radius: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8rem; position: relative; z-index: 20; }
-          .card-link-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
-        </style>
         <div class="product-swiper-wrapper">
           <div class="swiper product-swiper">
             <div class="swiper-wrapper">
@@ -310,20 +459,33 @@
                 <div class="product-card-custom position-relative">
                   <a href="{{ route('product.show', $product->id) }}" class="card-link-overlay"></a>
                   <div class="image-holder d-block">
-                    <img src="{{ $product->image ? asset($product->image) : asset('images/product-item1.jpg') }}" alt="{{ $product->name }}" class="img-fluid w-100" style="height: 280px;">
+                    <img src="{{ $product->image ? asset($product->image) : asset('images/product-item1.jpg') }}" alt="{{ $product->name }}" class="img-fluid w-100" style="height: 220px;">
                     <div class="cart-btn-overlay">
-                      <div class="d-flex flex-column gap-2 px-4 w-100">
-                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white py-2">Add to Cart</a>
-                        <a href="{{ route('cart.buy', $product->id) }}" class="btn btn-primary text-white py-2">Buy Now</a>
+                      <div class="d-flex flex-column gap-3 px-4 w-100">
+                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white py-3">Add to Cart</a>
+                        <a href="{{ route('cart.buy', $product->id) }}" class="btn btn-primary text-white py-3">Buy Now</a>
                       </div>
                     </div>
                   </div>
-                  <div class="card-detail p-4 d-flex flex-column flex-grow-1 bg-white">
+                  <div class="card-detail p-3 d-flex flex-column flex-grow-1 bg-white">
+                    <div class="product-rating mb-2 d-flex align-items-center gap-1">
+                      <div class="stars text-warning">
+                        @for($i = 1; $i <= 5; $i++)
+                          <i class="ti ti-star{{ $i <= round($product->rating) ? '-filled' : '' }} fs-6"></i>
+                        @endfor
+                      </div>
+                      <span class="text-muted small">({{ $product->reviews_count }})</span>
+                    </div>
                     <h3 class="product-title">
                       <a href="{{ route('product.show', $product->id) }}" style="position: relative; z-index: 10;">{{ $product->name }}</a>
                     </h3>
                     <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
-                      <span class="product-price">${{ number_format($product->price, 2) }}</span>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="product-price">Rs. {{ number_format($product->price, 2) }}</span>
+                        @if($product->compare_at_price)
+                          <span class="text-muted text-decoration-line-through small">Rs. {{ number_format($product->compare_at_price, 2) }}</span>
+                        @endif
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -332,8 +494,8 @@
             </div>
           </div>
           <!-- Navigation Arrows (Outside swiper for overflow) -->
-          <button class="swiper-arrow-custom swiper-prev"><i class="ti ti-arrow-left"></i></button>
-          <button class="swiper-arrow-custom swiper-next"><i class="ti ti-arrow-right"></i></button>
+          <button class="swiper-arrow-custom swiper-prev-custom"><i class="ti ti-arrow-left"></i></button>
+          <button class="swiper-arrow-custom swiper-next-custom"><i class="ti ti-arrow-right"></i></button>
           
           <!-- Pagination Dots -->
           <div class="swiper-pagination swiper-pagination-custom"></div>
@@ -342,11 +504,11 @@
     </div>
   </section>
 
-  @foreach($categoriesWithProducts as $category)
-  <section id="{{ $category->slug }}-products" class="product-store position-relative padding-large no-padding-top">
+  @foreach($categoriesWithProducts as $index => $category)
+  <section id="{{ $category->slug }}-products" class="product-store position-relative padding-medium {{ $index % 2 == 0 ? 'bg-light' : '' }}">
     <div class="container">
       <div class="row">
-        <div class="display-header d-flex justify-content-between pb-3">
+        <div class="display-header d-flex justify-content-between pb-5">
           <h2 class="display-7 text-dark text-uppercase">{{ $category->name }}</h2>
           <div class="btn-right">
             <a href="{{ route('shop', ['category' => $category->slug]) }}" class="btn btn-medium btn-normal text-uppercase">View All</a>
@@ -360,20 +522,33 @@
                 <div class="product-card-custom position-relative">
                   <a href="{{ route('product.show', $product->id) }}" class="card-link-overlay"></a>
                   <div class="image-holder d-block">
-                    <img src="{{ $product->image ? asset($product->image) : asset('images/product-item1.jpg') }}" alt="{{ $product->name }}" class="img-fluid w-100" style="height: 280px;">
+                    <img src="{{ $product->image ? asset($product->image) : asset('images/product-item1.jpg') }}" alt="{{ $product->name }}" class="img-fluid w-100" style="height: 220px;">
                     <div class="cart-btn-overlay">
-                      <div class="d-flex flex-column gap-2 px-4 w-100">
-                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white py-2">Add to Cart</a>
-                        <a href="{{ route('cart.buy', $product->id) }}" class="btn btn-primary text-white py-2">Buy Now</a>
+                      <div class="d-flex flex-column gap-3 px-4 w-100">
+                        <a href="{{ route('cart.add', $product->id) }}" class="btn btn-dark text-white py-3">Add to Cart</a>
+                        <a href="{{ route('cart.buy', $product->id) }}" class="btn btn-primary text-white py-3">Buy Now</a>
                       </div>
                     </div>
                   </div>
-                  <div class="card-detail p-4 d-flex flex-column flex-grow-1 bg-white">
+                  <div class="card-detail p-3 d-flex flex-column flex-grow-1 bg-white">
+                    <div class="product-rating mb-2 d-flex align-items-center gap-1">
+                      <div class="stars text-warning">
+                        @for($i = 1; $i <= 5; $i++)
+                          <i class="ti ti-star{{ $i <= round($product->rating) ? '-filled' : '' }} fs-6"></i>
+                        @endfor
+                      </div>
+                      <span class="text-muted small">({{ $product->reviews_count }})</span>
+                    </div>
                     <h3 class="product-title">
                       <a href="{{ route('product.show', $product->id) }}" style="position: relative; z-index: 10;">{{ $product->name }}</a>
                     </h3>
                     <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
-                      <span class="product-price">${{ number_format($product->price, 2) }}</span>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="product-price">Rs. {{ number_format($product->price, 2) }}</span>
+                        @if($product->compare_at_price)
+                          <span class="text-muted text-decoration-line-through small">Rs. {{ number_format($product->compare_at_price, 2) }}</span>
+                        @endif
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -382,8 +557,8 @@
             </div>
           </div>
           <!-- Navigation Arrows (Outside swiper for overflow) -->
-          <button class="swiper-arrow-custom swiper-prev"><i class="ti ti-arrow-left"></i></button>
-          <button class="swiper-arrow-custom swiper-next"><i class="ti ti-arrow-right"></i></button>
+          <button class="swiper-arrow-custom swiper-prev-custom"><i class="ti ti-arrow-left"></i></button>
+          <button class="swiper-arrow-custom swiper-next-custom"><i class="ti ti-arrow-right"></i></button>
           
           <!-- Pagination Dots -->
           <div class="swiper-pagination swiper-pagination-custom"></div>
@@ -392,6 +567,7 @@
     </div>
   </section>
   @endforeach
+
 
   @include('partials.footer')
 
@@ -410,24 +586,37 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Re-initialize Billboard Swiper (ensure it has our premium feel)
+      new Swiper('.main-swiper', {
+        speed: 1000,
+        loop: true,
+        parallax: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-arrow-next",
+          prevEl: ".swiper-arrow-prev",
+        },
+      });
+
       // Initialize all product swipers
       document.querySelectorAll('.product-swiper-wrapper').forEach(function(wrapper) {
         const swiperContainer = wrapper.querySelector('.product-swiper');
-        const nextEl = wrapper.querySelector('.swiper-next');
-        const prevEl = wrapper.querySelector('.swiper-prev');
+        const nextEl = wrapper.querySelector('.swiper-next-custom');
+        const prevEl = wrapper.querySelector('.swiper-prev-custom');
         const paginationEl = wrapper.querySelector('.swiper-pagination');
         
         new Swiper(swiperContainer, {
           slidesPerView: 4,
           spaceBetween: 24,
-          loop: true,
+          loop: false, // Set to false to avoid issues with small product counts
           grabCursor: true,
-          speed: 1500, // Slower transition for "slow slow" feel
-          autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          },
           navigation: {
             nextEl: nextEl,
             prevEl: prevEl,
@@ -436,23 +625,15 @@
             el: paginationEl,
             clickable: true,
           },
-          mousewheel: {
-            forceToAxis: true,
-          },
-          preventClicks: true,
-          preventClicksPropagation: true,
-          touchEventsTarget: 'container',
-          simulateTouch: true,
-          shortSwipes: true,
-          longSwipes: true,
           breakpoints: {
-            0: { slidesPerView: 1.3, spaceBetween: 16 },
-            576: { slidesPerView: 2, spaceBetween: 16 },
-            992: { slidesPerView: 3, spaceBetween: 24 },
+            0: { slidesPerView: 1.3, spaceBetween: 15 },
+            576: { slidesPerView: 2.2, spaceBetween: 15 },
+            992: { slidesPerView: 3, spaceBetween: 20 },
             1200: { slidesPerView: 4, spaceBetween: 24 }
           }
         });
       });
+
     });
   </script>
 </body>

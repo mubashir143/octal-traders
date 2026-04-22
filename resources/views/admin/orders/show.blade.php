@@ -2,6 +2,21 @@
 
 @section('title', 'Order Details')
 
+@push('styles')
+<style>
+    .icon-shape {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .border-start-2 {
+        border-left-width: 2px !important;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -34,21 +49,42 @@
                             @foreach($order->items as $item)
                             <tr>
                                 <td>
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ $item->product->image ? asset($item->product->image) : asset('admin-assets/images/product-1.png') }}" alt="" class="avatar avatar-md rounded me-3" />
-                                        <span>{{ $item->product->name }}</span>
+                                    <div class="d-flex align-items-start">
+                                        @if($item->deal_id)
+                                            <div class="icon-shape icon-md bg-primary-subtle text-primary rounded-2 me-3 flex-shrink-0">
+                                                <i class="ti ti-gift fs-4"></i>
+                                            </div>
+                                            <div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="fw-bold text-dark">{{ $item->deal->name }}</span>
+                                                    <span class="badge bg-primary-subtle text-primary rounded-pill small" style="font-size: 0.65rem;">BUNDLE</span>
+                                                </div>
+                                                <div class="mt-2 ps-3 border-start border-start-2 border-primary border-opacity-25">
+                                                    @foreach($item->deal->products as $p)
+                                                        <div class="small text-muted mb-1 d-flex align-items-center">
+                                                            <i class="ti ti-point me-1"></i>
+                                                            <span>{{ $p->name }}</span>
+                                                            <span class="ms-auto ps-3 text-secondary" style="font-size: 0.75rem;">Rs. {{ number_format($p->price, 2) }}</span>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @else
+                                            <img src="{{ $item->product->image ? asset($item->product->image) : asset('admin-assets/images/product-1.png') }}" alt="" class="avatar avatar-md rounded me-3 flex-shrink-0" />
+                                            <span class="fw-semibold text-dark">{{ $item->product->name }}</span>
+                                        @endif
                                     </div>
                                 </td>
-                                <td>${{ number_format($item->unit_price, 2) }}</td>
+                                <td>Rs. {{ number_format($item->unit_price, 2) }}</td>
                                 <td>{{ $item->quantity }}</td>
-                                <td class="text-end">${{ number_format($item->total_price, 2) }}</td>
+                                <td class="text-end">Rs. {{ number_format($item->total_price, 2) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot class="border-top fw-bold">
                             <tr>
                                 <td colspan="3" class="text-end py-3">Grand Total</td>
-                                <td class="text-end py-3">${{ number_format($order->total_amount, 2) }}</td>
+                                <td class="text-end py-3">Rs. {{ number_format($order->total_amount, 2) }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -117,7 +153,7 @@
                     </span>
                 </div>
                 <hr>
-                <button class="btn btn-outline-dark btn-sm w-100 mt-2 mb-2"><i class="ti ti-printer"></i> Print Invoice</button>
+                <a href="{{ route('admin.orders.print', $order->id) }}" target="_blank" class="btn btn-outline-dark btn-sm w-100 mt-2 mb-2"><i class="ti ti-printer"></i> Print Invoice</a>
                 <button class="btn btn-outline-dark btn-sm w-100"><i class="ti ti-mail"></i> Resend Email Invoice</button>
             </div>
         </div>

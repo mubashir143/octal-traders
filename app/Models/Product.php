@@ -17,9 +17,22 @@ class Product extends Model
         'category',
         'brand',
         'price',
+        'compare_at_price',
         'unit',
         'quantity',
         'image',
         'description',
+        'rating',
+        'reviews_count',
     ];
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

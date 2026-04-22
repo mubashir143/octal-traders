@@ -20,8 +20,8 @@
                 </div>
                 <div>
                     <h2 class="mb-3 fs-6">Total Sales</h2>
-                    <h3 class="fw-bold mb-0">$25,000</h3>
-                    <p class="text-primary mb-0 small">+5% since last month</p>
+                    <h3 class="fw-bold mb-0">Rs. {{ number_format($totalSales, 2) }}</h3>
+                    <p class="text-primary mb-0 small">From completed orders</p>
                 </div>
             </div>
         </div>
@@ -30,12 +30,12 @@
         <div class="card p-4 bg-success bg-opacity-10 border border-success border-opacity-25 rounded-2">
             <div class="d-flex gap-3 ">
                 <div class="icon-shape icon-md bg-success text-white rounded-2">
-                    <i class="ti ti-repeat fs-4"></i>
+                    <i class="ti ti-box fs-4"></i>
                 </div>
                 <div>
-                    <h2 class="mb-3 fs-6">Total Purchase</h2>
-                    <h3 class="fw-bold mb-0">$18,000</h3>
-                    <p class="text-success mb-2 small">+22% since last month</p>
+                    <h2 class="mb-3 fs-6">Total Products</h2>
+                    <h3 class="fw-bold mb-0">{{ $totalProducts }}</h3>
+                    <p class="text-success mb-2 small">Live in catalog</p>
                 </div>
             </div>
         </div>
@@ -44,12 +44,12 @@
         <div class="card p-4 bg-info bg-opacity-10 border border-info border-opacity-25 rounded-2">
             <div class="d-flex gap-3 ">
                 <div class="icon-shape icon-md bg-info text-white rounded-2">
-                    <i class="ti ti-currency-dollar fs-4"></i>
+                    <i class="ti ti-users fs-4"></i>
                 </div>
                 <div>
-                    <h2 class="mb-3 fs-6">Total Expenses</h2>
-                    <h3 class="fw-bold mb-0">$9,000</h3>
-                    <p class="text-info mb-2 small">+10% since last month</p>
+                    <h2 class="mb-3 fs-6">Total Customers</h2>
+                    <h3 class="fw-bold mb-0">{{ $totalCustomers }}</h3>
+                    <p class="text-info mb-2 small">Registered accounts</p>
                 </div>
             </div>
         </div>
@@ -58,12 +58,12 @@
         <div class="card p-4 bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-2">
             <div class="d-flex gap-3 ">
                 <div class="icon-shape icon-md bg-warning text-white rounded-2">
-                    <i class="ti ti-notes fs-4"></i>
+                    <i class="ti ti-alert-triangle fs-4"></i>
                 </div>
                 <div>
-                    <h2 class="mb-3 fs-6">Invoice Due</h2>
-                    <h3 class="fw-bold mb-0">$25,000</h3>
-                    <p class="text-warning mb-2 small">+35% since last month</p>
+                    <h2 class="mb-3 fs-6">Out of Stock</h2>
+                    <h3 class="fw-bold mb-0 text-danger">{{ $outOfStock }}</h3>
+                    <p class="text-warning mb-2 small">Action required</p>
                 </div>
             </div>
         </div>

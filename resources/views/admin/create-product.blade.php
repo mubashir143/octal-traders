@@ -52,11 +52,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="price" class="form-label">Price</label>
+                        <div class="col-md-4 mb-3">
+                            <label for="price" class="form-label">Selling Price</label>
                             <input type="number" class="form-control" id="price" name="price" value="{{ old('price') }}" placeholder="0.00" step="0.01" required>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
+                            <label for="compare_at_price" class="form-label">Original Price (Cut-off)</label>
+                            <input type="number" class="form-control" id="compare_at_price" name="compare_at_price" value="{{ old('compare_at_price') }}" placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <label for="quantity" class="form-label">Stock Quantity</label>
                             <input type="number" class="form-control" id="quantity" name="quantity" value="{{ old('quantity', 0) }}" placeholder="0" required>
                         </div>
@@ -78,10 +82,22 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Product Image</label>
-                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="image" class="form-label">Main Image (Card View)</label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                            <div class="form-text">This image will be displayed on product cards.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="gallery" class="form-label">Gallery Images (Product Detail)</label>
+                            <div class="border border-dashed rounded-3 p-3 text-center bg-light mb-2">
+                                <i class="ti ti-upload fs-1 text-muted d-block mb-2"></i>
+                                <input type="file" class="form-control" id="gallery" name="gallery[]" accept="image/*" multiple>
+                                <div class="form-text mt-2">Drag and drop images here or click to browse.</div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
                         <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter product description">{{ old('description') }}</textarea>

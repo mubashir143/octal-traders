@@ -32,6 +32,29 @@ class CartController extends Controller
         return redirect()->route('checkout')->with('success', 'Product added to cart. Please proceed with checkout.');
     }
 
+    public function addDeal(\App\Models\Deal $deal)
+    {
+        $cart = session()->get('cart', []);
+        $id = "deal_" . $deal->id;
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                'id' => $id,
+                'name' => $deal->name . " (Bundle)",
+                'quantity' => 1,
+                'price' => $deal->deal_price,
+                'image' => 'images/product-item1.jpg',
+                'is_deal' => true,
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index')->with('success', 'Bundle added to cart!');
+    }
+
     private function addToCart(Product $product)
     {
         $cart = session()->get('cart', []);

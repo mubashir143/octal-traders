@@ -5,9 +5,7 @@
   <meta charset="UTF-8" />
   <title>@yield('title', 'Admin Dashboard') | {{ config('app.name', 'InApp') }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('admin-assets/images/favicon_io/apple-touch-icon.png') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('admin-assets/images/favicon_io/favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('admin-assets/images/favicon_io/favicon-16x16.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('images/main-logo.png') }}">
   
   @vite(['resources/admin/js/main.js'])
   @stack('styles')
@@ -66,6 +64,7 @@
       <li><a class="nav-link {{ request()->routeIs('admin.inventory') ? 'active' : '' }}" href="{{ route('admin.inventory') }}"><i class="ti ti-box-seam"></i><span class="nav-text">Inventory</span></a></li>
       <li><a class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}"><i class="ti ti-tags"></i><span class="nav-text">Categories</span></a></li>
       <li><a class="nav-link {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}" href="{{ route('admin.banners.index') }}"><i class="ti ti-photo"></i><span class="nav-text">Banners</span></a></li>
+      <li><a class="nav-link {{ request()->routeIs('admin.deals.*') ? 'active' : '' }}" href="{{ route('admin.deals.index') }}"><i class="ti ti-gift"></i><span class="nav-text">Deals</span></a></li>
       <li><a class="nav-link {{ request()->routeIs('admin.products.create') ? 'active' : '' }}" href="{{ route('admin.products.create') }}"><i class="ti ti-plus"></i><span class="nav-text">Add Product</span></a></li>
       <li class="px-4 py-2 mt-3"><small class="nav-text">Management</small></li>
       <li><a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}"><i class="ti ti-users"></i><span class="nav-text">Users</span></a></li>
